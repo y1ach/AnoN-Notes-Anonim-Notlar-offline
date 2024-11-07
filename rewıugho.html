@@ -38,10 +38,10 @@
 
         notes.push(note);
         localStorage.setItem('notes', JSON.stringify(notes));
-
-        document.getElementById('notepad').value = "";
-        displayNotes();
+        document.getElementById('notepad').value = ""; 
+        displayNotes(); 
     }
+
 
     function displayNotes() {
         const savedNotes = localStorage.getItem('notes');
