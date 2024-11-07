@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paylaşılan Not Defteri</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; }
+        #notepad { width: 80%; height: 200px; margin: 20px 0; }
+        .note { background-color: #fff; padding: 10px; margin: 5px 0; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<h1>Paylaşılan Not Defteri</h1>
+
+<textarea id="notepad" placeholder="Buraya notunuzu yazın..." rows="4" style="width:80%;"></textarea>
+<button onclick="addNote()">Notu Ekle</button>
+
+<h3>Notlar</h3>
+<div id="notesList"></div>
+
+<script>
+    let notes = [];
+
+    window.onload = function() {
+        displayNotes();
+    };
+
+    function addNote() {
+        const noteContent = document.getElementById('notepad').value;
+        if (noteContent.trim() === "") return;
+
+        const note = {
+            user: "Anon " + (notes.length + 1),
+            content: noteContent
+        };
+
+        notes.push(note);
+        localStorage.setItem('notes', JSON.stringify(notes));
+        document.getElementById('notepad').value = ""; 
+        displayNotes(); 
+    }
+
+
+    function displayNotes() {
+        const savedNotes = localStorage.getItem('notes');
+        if (savedNotes) {
+            notes = JSON.parse(savedNotes);
+        }
+
+        const notesContainer = document.getElementById('notesList');
+        notesContainer.innerHTML = '';
+
+        notes.forEach(note => {
+            const noteElement = document.createElement('div');
+            noteElement.classList.add('note');
+            noteElement.innerHTML = `<strong>${note.user}:</strong><p>${note.content}</p>`;
+            notesContainer.appendChild(noteElement);
+        });
+    }
+</script>
+
+</body>
+</html>
